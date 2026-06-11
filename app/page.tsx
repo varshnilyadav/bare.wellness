@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import LockScreen from "@/components/LockScreen";
 import CustomCursor from "@/components/CustomCursor";
 import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
@@ -16,6 +18,29 @@ import CTA from "@/components/sections/CTA";
 import Footer from "@/components/sections/Footer";
 
 export default function Home() {
+  const [isLocked, setIsLocked] = useState(true);
+  const [checking, setChecking] = useState(true);
+
+  useEffect(() => {
+    const unlocked = localStorage.getItem("bare_unlocked");
+    if (unlocked === "true") {
+      setIsLocked(false);
+    }
+    setChecking(false);
+  }, []);
+
+  if (checking) {
+    return (
+      <div className="fixed inset-0 bg-black flex items-center justify-center">
+        <div className="w-10 h-10 border-2 border-green-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (isLocked) {
+    return <LockScreen onUnlock={() => setIsLocked(false)} />;
+  }
+
   return (
     <SmoothScroll>
       <CustomCursor />
