@@ -9,6 +9,7 @@ interface LockScreenProps {
 }
 
 export default function LockScreen({ onUnlock }: LockScreenProps) {
+  const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -27,18 +28,22 @@ export default function LockScreen({ onUnlock }: LockScreenProps) {
 
     // Artificial short delay for premium loading experience
     setTimeout(() => {
-      // Correct password is "bare" (case-insensitive)
-      if (password.trim().toLowerCase() === "bare") {
+      const correctId = id.trim().toLowerCase() === "bare";
+      const correctPassword =
+        password.trim().toLowerCase() === "wellness" ||
+        password.trim().toLowerCase() === "recovery";
+
+      if (correctId && correctPassword) {
         localStorage.setItem("bare_unlocked", "true");
         onUnlock();
       } else {
         setError(true);
         setLoading(false);
-        // Shake feedback
-        const input = document.getElementById("password-input");
-        if (input) {
-          input.classList.add("animate-shake");
-          setTimeout(() => input.classList.remove("animate-shake"), 500);
+        // Shake feedback on the form container
+        const form = document.getElementById("lock-form");
+        if (form) {
+          form.classList.add("animate-shake");
+          setTimeout(() => form.classList.remove("animate-shake"), 500);
         }
       }
     }, 800);
@@ -65,7 +70,7 @@ export default function LockScreen({ onUnlock }: LockScreenProps) {
         <div className="absolute inset-[1px] rounded-[19px] border border-white/5 pointer-events-none" />
 
         {/* Logo / Header */}
-        <div className="flex flex-col items-center gap-4 mb-8">
+        <div className="flex flex-col items-center gap-4 mb-6">
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -91,26 +96,46 @@ export default function LockScreen({ onUnlock }: LockScreenProps) {
         </div>
 
         {/* Info */}
-        <p className="text-gray-400 text-sm mb-6 leading-relaxed">
-          This website is currently in private development. Please enter the access code to preview the build.
+        <p className="text-gray-400 text-xs md:text-sm mb-6 leading-relaxed">
+          This website is currently in private development. Please enter the ID and password to preview.
         </p>
 
         {/* Lock Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="relative">
+        <form id="lock-form" onSubmit={handleSubmit} className="space-y-4 text-left">
+          <div className="space-y-1.5">
+            <label className="text-[10px] text-gray-500 tracking-wider uppercase font-semibold pl-1">
+              User ID
+            </label>
             <input
-              id="password-input"
-              type="password"
-              placeholder="Enter Access Code"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className={`w-full px-5 py-3.5 bg-black/60 border rounded-xl text-white placeholder-gray-600 text-sm tracking-widest text-center focus:outline-none transition-all duration-300 font-medium ${
+              type="text"
+              placeholder="Enter User ID"
+              value={id}
+              onChange={(e) => setId(e.target.value)}
+              className={`w-full px-4 py-3 bg-black/60 border rounded-xl text-white placeholder-gray-700 text-sm tracking-wide focus:outline-none transition-all duration-300 font-medium ${
                 error
                   ? "border-red-500/50 focus:border-red-500"
-                  : "border-white/10 focus:border-green-primary/50 focus:shadow-[0_0_20px_rgba(29,185,84,0.1)]"
+                  : "border-white/10 focus:border-green-primary/50 focus:shadow-[0_0_15px_rgba(29,185,84,0.08)]"
               }`}
               disabled={loading}
               autoFocus
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-[10px] text-gray-500 tracking-wider uppercase font-semibold pl-1">
+              Password
+            </label>
+            <input
+              type="password"
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={`w-full px-4 py-3 bg-black/60 border rounded-xl text-white placeholder-gray-700 text-sm tracking-wide focus:outline-none transition-all duration-300 font-medium ${
+                error
+                  ? "border-red-500/50 focus:border-red-500"
+                  : "border-white/10 focus:border-green-primary/50 focus:shadow-[0_0_15px_rgba(29,185,84,0.08)]"
+              }`}
+              disabled={loading}
             />
           </div>
 
@@ -120,17 +145,17 @@ export default function LockScreen({ onUnlock }: LockScreenProps) {
                 initial={{ opacity: 0, y: -5 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="text-red-500 text-xs tracking-wider"
+                className="text-red-500 text-xs tracking-wider text-center pt-1"
               >
-                Access code invalid. Hint: Use 'bare'
+                Invalid credentials. Hint: bare / wellness
               </motion.p>
             )}
           </AnimatePresence>
 
           <button
             type="submit"
-            disabled={loading || !password}
-            className="w-full py-3.5 bg-green-primary text-black font-bold text-sm rounded-xl hover:bg-green-light transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-[0_0_30px_rgba(29,185,84,0.25)] flex items-center justify-center gap-2"
+            disabled={loading || !id || !password}
+            className="w-full mt-2 py-3.5 bg-green-primary text-black font-bold text-sm rounded-xl hover:bg-green-light transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-[0_0_30px_rgba(29,185,84,0.25)] flex items-center justify-center gap-2 cursor-pointer"
           >
             {loading ? (
               <svg
@@ -154,7 +179,7 @@ export default function LockScreen({ onUnlock }: LockScreenProps) {
                 />
               </svg>
             ) : (
-              "Unlock Preview"
+              "Access Website"
             )}
           </button>
         </form>
