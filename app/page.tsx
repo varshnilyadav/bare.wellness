@@ -1,21 +1,19 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import CustomCursor from "@/components/CustomCursor";
 import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
 import MarqueeStrip from "@/components/MarqueeStrip";
-
-// Dynamic imports for sections to optimize loading
-const Hero = dynamic(() => import("@/components/sections/Hero"));
-const About = dynamic(() => import("@/components/sections/About"));
-const Services = dynamic(() => import("@/components/sections/Services"));
-const Journey = dynamic(() => import("@/components/sections/Journey"));
-const Gallery = dynamic(() => import("@/components/sections/Gallery"));
-const Benefits = dynamic(() => import("@/components/sections/Benefits"));
-const Testimonials = dynamic(() => import("@/components/sections/Testimonials"));
-const CTA = dynamic(() => import("@/components/sections/CTA"));
-const Footer = dynamic(() => import("@/components/sections/Footer"));
+import WhatsAppFab from "@/components/WhatsAppFab";
+import Hero from "@/components/sections/Hero";
+import About from "@/components/sections/About";
+import Services from "@/components/sections/Services";
+import Journey from "@/components/sections/Journey";
+import Gallery from "@/components/sections/Gallery";
+import Benefits from "@/components/sections/Benefits";
+import Testimonials from "@/components/sections/Testimonials";
+import CTA from "@/components/sections/CTA";
+import Footer from "@/components/sections/Footer";
 
 export default function Home() {
   return (
@@ -37,6 +35,7 @@ export default function Home() {
         <CTA />
       </main>
       <Footer />
+      <WhatsAppFab />
     </SmoothScroll>
   );
 }

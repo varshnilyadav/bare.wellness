@@ -20,7 +20,6 @@
 
 /* ==================== BASE ==================== */
 * {
-  cursor: none !important;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -60,7 +59,13 @@ body {
   background: #2ECC40;
 }
 
-/* ==================== CUSTOM CURSOR ==================== */
+/* ==================== CUSTOM CURSOR (desktop only) ==================== */
+@media (min-width: 769px) and (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
+
 .cursor-dot {
   width: 8px;
   height: 8px;
@@ -185,7 +190,7 @@ body {
 }
 
 /* ==================== MOBILE ==================== */
-@media (max-width: 768px) {
+@media (max-width: 768px), (pointer: coarse) {
   .cursor-dot, .cursor-ring {
     display: none !important;
   }
@@ -202,4 +207,35 @@ section {
 .section-divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(29, 185, 84, 0.3), transparent);
+}
+
+/* ==================== WHATSAPP FAB ==================== */
+.whatsapp-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9990;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.whatsapp-fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6);
+}
+
+@media (max-width: 768px) {
+  .whatsapp-fab {
+    bottom: 16px;
+    right: 16px;
+    width: 50px;
+    height: 50px;
+  }
 }
