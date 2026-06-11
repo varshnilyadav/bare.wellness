@@ -1,0 +1,205 @@
+@import "tailwindcss";
+
+@theme {
+  --color-black: #000000;
+  --color-dark: #0a0a0a;
+  --color-dark-surface: #111111;
+  --color-dark-card: #161616;
+  --color-green-primary: #1DB954;
+  --color-green-light: #2ECC40;
+  --color-green-dark: #0E8C3A;
+  --color-green-glow: rgba(29, 185, 84, 0.15);
+  --color-white: #ffffff;
+  --color-gray-100: #E5E5E5;
+  --color-gray-400: #9CA3AF;
+  --color-gray-800: #1F1F1F;
+
+  --font-heading: "Outfit", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+/* ==================== BASE ==================== */
+* {
+  cursor: none !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #000;
+}
+
+body {
+  font-family: var(--font-body);
+  color: #fff;
+  background-color: #000;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: rgba(29, 185, 84, 0.3);
+  color: #fff;
+}
+
+/* ==================== SCROLLBAR ==================== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+::-webkit-scrollbar-thumb {
+  background: #1DB954;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2ECC40;
+}
+
+/* ==================== CUSTOM CURSOR ==================== */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #1DB954;
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  transition: transform 0.1s ease;
+  mix-blend-mode: normal;
+}
+
+.cursor-ring {
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid rgba(29, 185, 84, 0.5);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99998;
+  transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.cursor-dot.hover {
+  transform: scale(2.5);
+  background-color: #2ECC40;
+}
+
+.cursor-ring.hover {
+  width: 60px;
+  height: 60px;
+  border-color: rgba(46, 204, 64, 0.3);
+  background-color: rgba(29, 185, 84, 0.05);
+}
+
+/* ==================== GLASSMORPHISM ==================== */
+.glass {
+  background: rgba(17, 17, 17, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-card {
+  background: rgba(22, 22, 22, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+}
+
+/* ==================== MARQUEE ==================== */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.marquee-track {
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-track-reverse {
+  animation: marquee-reverse 30s linear infinite;
+}
+
+/* ==================== GRADIENT TEXT ==================== */
+.text-gradient {
+  background: linear-gradient(135deg, #1DB954, #2ECC40, #1DB954);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ==================== GREEN GLOW ==================== */
+.glow-green {
+  box-shadow: 0 0 30px rgba(29, 185, 84, 0.15), 0 0 60px rgba(29, 185, 84, 0.05);
+}
+
+.glow-green-strong {
+  box-shadow: 0 0 40px rgba(29, 185, 84, 0.3), 0 0 80px rgba(29, 185, 84, 0.1);
+}
+
+/* ==================== AMBIENT PARTICLES ==================== */
+@keyframes float {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  50% { transform: translateY(-100px) translateX(30px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+.animate-float {
+  animation: float 8s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+/* ==================== LIGHTBOX ==================== */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==================== MOBILE ==================== */
+@media (max-width: 768px) {
+  .cursor-dot, .cursor-ring {
+    display: none !important;
+  }
+  * {
+    cursor: auto !important;
+  }
+}
+
+/* ==================== SMOOTH SECTION TRANSITIONS ==================== */
+section {
+  position: relative;
+}
+
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(29, 185, 84, 0.3), transparent);
+}
