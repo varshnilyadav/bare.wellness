@@ -30,8 +30,7 @@ export default function LockScreen({ onUnlock }: LockScreenProps) {
     setTimeout(() => {
       const correctId = id.trim().toLowerCase() === "bare";
       const correctPassword =
-        password.trim().toLowerCase() === "wellness" ||
-        password.trim().toLowerCase() === "recovery";
+        password.trim().toLowerCase() === "varshnil";
 
       if (correctId && correctPassword) {
         localStorage.setItem("bare_unlocked", "true");
@@ -147,7 +146,7 @@ export default function LockScreen({ onUnlock }: LockScreenProps) {
                 exit={{ opacity: 0 }}
                 className="text-red-500 text-xs tracking-wider text-center pt-1"
               >
-                Invalid credentials. Hint: bare / wellness
+                Invalid credentials. Hint: bare / varshnil
               </motion.p>
             )}
           </AnimatePresence>
